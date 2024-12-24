@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicație de date bursiere</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Introduceti ticker-ul de bursa (ex: AAPL sau MSFT):</h1>
+        <form method="POST">
+            <input type="text" name="ticker" required placeholder="Ticker">
+            <label for="start_date">Data de început:</label>
+            <input type="date" name="start_date" id="start_date" required>
+            <label for="end_date">Data de sfârșit:</label>
+            <input type="date" name="end_date" id="end_date" required>
+            <button type="submit">Submit</button>
+        </form>
+        {% if data is not none and not data.empty %}
+            <h2>Rezultate:</h2>
+            <p><strong>Preț deschidere:</strong> {{ open_price }}</p>
+            <p><strong>Preț închidere:</strong> {{ close_price }}</p>
+            {% if percentage_change is not none %}
+                <p style="color: {{ 'green' if percentage_change > 0 else 'red' }};">
+                    Procentaj schimbare: {{ percentage_change | round(2) }}%
+                </p>
+            {% endif %}
+        {% elif data is not none %}
+            <h2>Nu au fost găsite date pentru ticker-ul introdus.</h2>
+        {% endif %}
+        <div class="timestamp">
+            <strong>Data și ora: {{ current_time.strftime('%d %B %Y, %H:%M:%S') }} (Bucharest)</strong>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2023 Zaha27. Toate drepturile rezervate.</p>
+    </footer>
+</body>
+</html>

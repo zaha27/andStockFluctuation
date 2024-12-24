@@ -1,0 +1,59 @@
+body {
+    background-color: black;
+    color: #39FF14; /* Verde neon */
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Întreaga înălțime a ferestrei */
+    margin: 0; /* Elimină marginile implicite */
+}
+
+.container {
+    text-align: center;
+    max-width: 600px; /* Lățime maximă pentru un aspect mai compact */
+    padding: 20px; /* Spațiu interior */
+    border: 1px solid #39FF14; /* Bordură verde neon */
+    border-radius: 10px; /* Colțuri rotunjite */
+    background-color: rgba(0, 0, 0, 0.8); /* Fundal semi-transparent */
+}
+
+input[type="text"], input[type="date"], select {
+    padding: 10px;
+    font-size: 16px;
+    background-color: black; /* Fundal negru pentru câmpul de text */
+    color: #39FF14; /* Text verde neon */
+    border: 1px solid #39FF14; /* Bordură verde neon */
+    border-radius: 5px; /* Colțuri rotunjite */
+    margin-bottom: 10px; /* Spațiu între elemente */
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #39FF14; /* Verde neon */
+    color: black;
+    border: none;
+    cursor: pointer;
+    font-weight: bold; /* Text îngroșat pentru buton */
+    border-radius: 5px; /* Colțuri rotunjite */
+}
+
+button:hover {
+    background-color: #32CD32; /* Verde mai închis la hover */
+}
+
+footer {
+    text-align: center;
+    position: absolute;
+    bottom: 10px; /* Poziționează footer-ul la 10px de jos */
+    width: 100%; /* Lățimea footer-ului să fie 100% */
+    color: #39FF14; /* Text verde neon */
+}
+
+.timestamp {
+    margin-top: 20px;
+    font-size: 12px; /* Text mic */
+    color: #39FF14; /* Verde neon */
+    font-weight: bold; /* Text îngroșat */
+} 
