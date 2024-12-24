@@ -5,36 +5,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplicație de date bursiere</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* Organizează layout-ul pe verticală */
+            min-height: 100vh; /* Asigură că body-ul ocupă întreaga înălțime a ferestrei */
+            margin: 0; /* Elimină marginile implicite ale body-ului */
+        }
+        .toolbar {
+            display: flex; /* Folosește flexbox pentru toolbar */
+            align-items: center; /* Aliniază vertical elementele */
+            background-color: #000; /* Fundal negru pentru toolbar */
+            color: #39FF14; /* Culoarea textului */
+            padding: 10px 20px; /* Spațiu interior */
+            border-bottom: 2px solid #39FF14; /* Linie verde subțire pe toată lățimea */
+            width: 100%; /* Lățimea completă a toolbar-ului */
+        }
+        .toolbar svg {
+            width: 24px; /* Dimensiunea logo-ului */
+            height: 24px; /* Dimensiunea logo-ului */
+            margin-right: 5px; /* Spațiu între logo și text */
+        }
+        .toolbar h2 {
+            font-size: 18px; /* Dimensiunea textului pentru a fi mai mic */
+            margin: 0; /* Elimină marginile pentru a alinia textul cu logo-ul */
+            line-height: 24px; /* Aliniază textul cu înălțimea logo-ului */
+        }
+        .content {
+            flex: 1; /* Ocupă restul spațiului disponibil */
+            padding: 20px; /* Spațiu interior */
+        }
+        .github-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 25px; /* Lățimea cercului */
+            height: 25px; /* Înălțimea cercului */
+            border-radius: 50%; /* Colțuri rotunjite pentru cerc */
+            background-color: #39FF14; /* Culoarea verde a cercului */
+            margin-left: 5px; /* Spațiu între text și logo */
+        }
+        .github-logo img {
+            width: 20px; /* Dimensiunea pisicii */
+            height: 20px; /* Dimensiunea pisicii */
+        }
+        .date-fields {
+            display: flex; /* Folosește flexbox pentru a alinia câmpurile pe același rând */
+            justify-content: space-between; /* Spațiu între câmpuri */
+            margin-top: 10px; /* Spațiu deasupra câmpurilor de dată */
+        }
+        .date-fields input {
+            margin-right: 10px; /* Spațiu între câmpurile de dată */
+        }
+        footer {
+            text-align: center; /* Centrează textul în footer */
+            margin-top: 20px; /* Spațiu deasupra footer-ului */
+            padding: 10px 0; /* Spațiu interior pentru footer */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Introduceti ticker-ul de bursa (ex: AAPL sau MSFT):</h1>
-        <form method="POST">
-            <input type="text" name="ticker" required placeholder="Ticker">
-            <label for="start_date">Data de început:</label>
-            <input type="date" name="start_date" id="start_date" required>
-            <label for="end_date">Data de sfârșit:</label>
-            <input type="date" name="end_date" id="end_date" required>
-            <button type="submit">Submit</button>
-        </form>
-        {% if data is not none and not data.empty %}
-            <h2>Rezultate:</h2>
-            <p><strong>Preț deschidere:</strong> {{ open_price }}</p>
-            <p><strong>Preț închidere:</strong> {{ close_price }}</p>
-            {% if percentage_change is not none %}
-                <p style="color: {{ 'green' if percentage_change > 0 else 'red' }};">
-                    Procentaj schimbare: {{ percentage_change | round(2) }}%
-                </p>
+    <div class="toolbar">
+        <!-- Logo cu candle roșu și verde -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50">
+            <rect x="10" y="10" width="10" height="30" fill="green" /> <!-- Candle verde -->
+            <rect x="30" y="20" width="10" height="20" fill="red" /> <!-- Candle roșu -->
+        </svg>
+        <h2>Stock Fluctuation</h2>
+    </div>
+    <div class="content">
+        <div class="container">
+            <h1>Introduceti ticker-ul de bursa:</h1>
+            <form method="POST">
+                <input type="text" name="ticker" required placeholder="">
+                <div class="date-fields">
+                    <div>
+                        <label for="start_date">Data de început:</label>
+                        <input type="date" name="start_date" id="start_date" required>
+                    </div>
+                    <div>
+                        <label for="end_date">Data de sfârșit:</label>
+                        <input type="date" name="end_date" id="end_date" required>
+                    </div>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            {% if data is not none and not data.empty %}
+                <h2>Rezultate:</h2>
+                <p><strong>Preț deschidere:</strong> {{ open_price }}</p>
+                <p><strong>Preț închidere:</strong> {{ close_price }}</p>
+                {% if percentage_change is not none %}
+                    <p style="color: {{ 'green' if percentage_change > 0 else 'red' }};">
+                        Procentaj schimbare: {{ percentage_change | round(2) }}%
+                    </p>
+                {% endif %}
+            {% elif data is not none %}
+                <h2>Nu au fost găsite date pentru ticker-ul introdus.</h2>
             {% endif %}
-        {% elif data is not none %}
-            <h2>Nu au fost găsite date pentru ticker-ul introdus.</h2>
-        {% endif %}
-        <div class="timestamp">
-            <strong>Data și ora: {{ current_time.strftime('%d %B %Y, %H:%M:%S') }} (Bucharest)</strong>
+            <div class="timestamp">
+                <strong>Data și ora: {{ current_time.strftime('%d %B %Y, %H:%M:%S') }} (Bucharest)</strong>
+            </div>
         </div>
     </div>
     <footer>
-        <p>&copy; 2023 Zaha27. Toate drepturile rezervate.</p>
+        <p>&copy; 2024 Zaharia Andrei. Toate drepturile rezervate.
+            <a href="https://github.com/zaha27" target="_blank" class="github-logo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Logo">
+            </a>
+        </p>
     </footer>
 </body>
 </html>
